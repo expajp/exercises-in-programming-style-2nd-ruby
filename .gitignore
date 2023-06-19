@@ -57,3 +57,6 @@ build-iPhoneSimulator/
 
 # inputfiles
 *.txt
+
+# python files
+*.py
