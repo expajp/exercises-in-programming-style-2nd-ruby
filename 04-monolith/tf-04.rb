@@ -6,9 +6,11 @@ open('../stop_words.txt') do |f|
 end
 
 open(ARGV[0]) do |f|
-    f.readlines.each do |line|
+    for line in f.readlines
         start_char_idx = nil
-        line.each_char.with_index do |c, i|
+
+        i = 0
+        for c in line.chars
             if start_char_idx.nil?
                 if c.match?(/^[a-zA-Z0-9]$/)
                     start_char_idx = i
@@ -19,21 +21,23 @@ open(ARGV[0]) do |f|
 
                     if !stop_words.include?(word)
                         found = false
-                        word_freqs.each do |pair|
+
+                        pair_index = 0
+                        for pair in word_freqs
                             if word == pair[0]
                                 pair[1] += 1
                                 found = true
                                 break
                             end
+                            pair_index += 1
                         end
     
                         if !found
                             word_freqs << [word, 1]
                         elsif word_freqs.size > 1
-                            word_freqs_size = word_freqs.size
-                            pointer = word_freqs_size - 1
+                            pointer = pair_index
     
-                            for n in (0..word_freqs_size-1).to_a.reverse
+                            for n in (0..pair_index).to_a.reverse
                                 if word_freqs[pointer][1] > word_freqs[n][1]
                                     word_freqs[n], word_freqs[pointer] = 
                                         word_freqs[pointer], word_freqs[n]
@@ -46,6 +50,7 @@ open(ARGV[0]) do |f|
                     start_char_idx = nil
                 end
             end
+            i += 1
         end
     end
 end
