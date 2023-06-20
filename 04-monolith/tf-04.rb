@@ -53,4 +53,6 @@ for line in open(ARGV[0]).readlines
     end
 end
 
-word_freqs.each { |pair| print "#{pair[0]} - #{pair[1]}\n" }
+for pair in word_freqs do
+    print "#{pair[0]} - #{pair[1]}\n"
+end
