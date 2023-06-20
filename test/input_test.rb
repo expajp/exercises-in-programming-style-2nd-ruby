@@ -14,8 +14,9 @@ class InputTest < Minitest::Test
         EOS
         $stdin = StringIO.new
         $stdout = StringIO.new
+        ARGV[1] = ARGV[0]
         ARGV[0] = '../input.txt'
-        load './tf-04.rb'
+        load ARGV[1]
         assert_equal expected, $stdout.string
     end
 end
