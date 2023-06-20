@@ -6,7 +6,7 @@ open('../stop_words.txt') do |f|
 end
 
 open(ARGV[0]) do |f|
-    f.readlines.map(&:chomp).each do |line|
+    f.readlines.each do |line|
         start_char_idx = nil
         line.each_char.with_index do |c, i|
             if start_char_idx.nil?
