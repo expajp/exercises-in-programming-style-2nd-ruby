@@ -53,6 +53,6 @@ for line in open(ARGV[0]).readlines
     end
 end
 
-for pair in word_freqs do
+for pair in word_freqs[0..24] do
     print "#{pair[0]} - #{pair[1]}\n"
 end
