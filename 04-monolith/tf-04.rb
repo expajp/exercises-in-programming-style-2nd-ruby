@@ -2,10 +2,10 @@ word_freqs = []
 stop_words = []
 
 open('../stop_words.txt') do |f|
-   stop_words = f.read.split(',')
-   for c in ('a'..'z').to_a
-    stop_words << c
-   end
+    stop_words = f.read.split(',')
+    for c in ('a'..'z').to_a
+        stop_words << c
+    end
 end
 
 for line in open(ARGV[0]).readlines
