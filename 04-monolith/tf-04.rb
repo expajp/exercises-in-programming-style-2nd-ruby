@@ -14,11 +14,11 @@ for line in open(ARGV[0]).readlines
     i = 0
     for c in line.chars
         if start_char_idx.nil?
-            if c.match?(/^[a-zA-Z0-9]$/)
+            if c.match?(/^[[:alnum:]]$/)
                 start_char_idx = i
             end
         else
-            if !c.match?(/^[a-zA-Z0-9]$/)
+            if !c.match?(/^[[:alnum:]]$/)
                 word = line[start_char_idx..(i-1)].downcase # Pythonだと line[start_char_idx:i]
 
                 if !stop_words.include?(word)
