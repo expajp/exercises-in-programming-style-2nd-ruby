@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 
 $test_target_filepath = ARGV[0]
+$toplevel_filepath = ARGV[1] || '/Users/shu/workspaces/git/exs_pg_style_rb'
 
 class InputTest < Minitest::Test
     def test_stdout_by_test_txt
@@ -12,8 +13,9 @@ class InputTest < Minitest::Test
         EOS
         $stdin = StringIO.new
         $stdout = StringIO.new
-        ARGV[0] = '../test.txt'
-        load $test_target_filepath
+        ARGV[0] = "#{$toplevel_filepath}/test.txt"
+        ARGV[1] = "#{$toplevel_filepath}/stop_words.txt"
+        load "#{$toplevel_filepath}/#{$test_target_filepath}"
         assert_equal expected, $stdout.string
     end
 
@@ -30,8 +32,9 @@ class InputTest < Minitest::Test
         EOS
         $stdin = StringIO.new
         $stdout = StringIO.new
-        ARGV[0] = '../input.txt'
-        load $test_target_filepath
+        ARGV[0] = "#{$toplevel_filepath}/input.txt"
+        ARGV[1] = "#{$toplevel_filepath}/stop_words.txt"
+        load "#{$toplevel_filepath}/#{$test_target_filepath}"
         assert_equal expected, $stdout.string
     end
 
@@ -65,8 +68,9 @@ class InputTest < Minitest::Test
         EOS
         $stdin = StringIO.new
         $stdout = StringIO.new
-        ARGV[0] = '../pride-and-prejudice.txt'
-        load $test_target_filepath
+        ARGV[0] = "#{$toplevel_filepath}/pride-and-prejudice.txt"
+        ARGV[1] = "#{$toplevel_filepath}/stop_words.txt"
+        load "#{$toplevel_filepath}/#{$test_target_filepath}"
         assert_equal expected, $stdout.string
     end
 end

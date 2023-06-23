@@ -1,7 +1,10 @@
 word_freqs = []
 stop_words = []
 
-open('../stop_words.txt') do |f|
+raise 'Please assign an input file as ARGV[0]' if ARGV[0].nil?
+raise 'Please assign an stop_words file as ARGV[1]' if ARGV[1].nil?
+
+open(ARGV[1]) do |f|
     stop_words = f.read.split(',')
     for c in ('a'..'z').to_a
         stop_words << c
