@@ -16,7 +16,7 @@ for line in open(ARGV[0]).readlines
             end
         else
             if !c.match?(/^[a-zA-Z0-9]$/)
-                word = line[start_char_idx..i].strip.downcase
+                word = line[start_char_idx..(i-1)].downcase # Pythonだと line[start_char_idx:i]
 
                 if !stop_words.include?(word)
                     found = false
