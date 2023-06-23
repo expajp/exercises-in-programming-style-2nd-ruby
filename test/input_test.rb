@@ -1,5 +1,7 @@
 require 'minitest/autorun'
 
+$test_target_filepath = ARGV[0]
+
 class InputTest < Minitest::Test
     def test_stdout_by_input_txt
         expected = <<~EOS
@@ -14,9 +16,8 @@ class InputTest < Minitest::Test
         EOS
         $stdin = StringIO.new
         $stdout = StringIO.new
-        ARGV[1] = ARGV[0]
         ARGV[0] = '../input.txt'
-        load ARGV[1]
+        load $test_target_filepath
         assert_equal expected, $stdout.string
     end
 end
