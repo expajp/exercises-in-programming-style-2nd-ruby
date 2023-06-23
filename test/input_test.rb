@@ -3,6 +3,20 @@ require 'minitest/autorun'
 $test_target_filepath = ARGV[0]
 
 class InputTest < Minitest::Test
+    def test_stdout_by_test_txt
+        expected = <<~EOS
+        acquaintance - 1
+        suppose - 1
+        sure - 1
+        know - 1
+        EOS
+        $stdin = StringIO.new
+        $stdout = StringIO.new
+        ARGV[0] = '../test.txt'
+        load $test_target_filepath
+        assert_equal expected, $stdout.string
+    end
+
     def test_stdout_by_input_txt
         expected = <<~EOS
         live - 2
@@ -17,6 +31,41 @@ class InputTest < Minitest::Test
         $stdin = StringIO.new
         $stdout = StringIO.new
         ARGV[0] = '../input.txt'
+        load $test_target_filepath
+        assert_equal expected, $stdout.string
+    end
+
+    def test_stdout_by_pride_and_prejudice_txt
+        expected = <<~EOS
+        mr - 786
+        elizabeth - 635
+        very - 488
+        darcy - 418
+        such - 395
+        mrs - 343
+        much - 329
+        more - 327
+        bennet - 323
+        bingley - 306
+        jane - 295
+        miss - 283
+        one - 275
+        know - 239
+        before - 229
+        herself - 227
+        though - 226
+        well - 224
+        never - 220
+        sister - 218
+        soon - 216
+        think - 211
+        now - 209
+        time - 203
+        good - 201
+        EOS
+        $stdin = StringIO.new
+        $stdout = StringIO.new
+        ARGV[0] = '../pride-and-prejudice.txt'
         load $test_target_filepath
         assert_equal expected, $stdout.string
     end
