@@ -1,9 +1,9 @@
 raise 'Please assign an input file as ARGV[0]' if ARGV[0].nil?
 raise 'Please assign an stop_words file as ARGV[1]' if ARGV[1].nil?
 
-data = []
-words = []
-word_freqs = []
+$data = []
+$words = []
+$word_freqs = []
 
 def read_file(path_to_file)
     open(path_to_file) do |f|
@@ -12,18 +12,18 @@ def read_file(path_to_file)
 end
 
 def filter_chars_and_normalize
-    data.length.times do |i|
-        if !data[i].match?(/^[[:alnum:]]$/)
-            data[i] = ' '
+    $data.length.times do |i|
+        if !$data[i].match?(/^[[:alnum:]]$/)
+            $data[i] = ' '
         else
-            data[i] = data[i].downcase
+            $data[i] = $data[i].downcase
         end
     end
 end
 
 def scan
     data_str = data.to_s
-    words += data_str.split(' ')
+    $words += data_str.split(' ')
 end
 
 def remove_stop_words
@@ -38,12 +38,12 @@ def remove_stop_words
 end
 
 def frequencies
-    words.each do |word|
-        keys = word_freqs.map { _1[0] }
+    $words.each do |word|
+        keys = $word_freqs.map { _1[0] }
         if keys.include?(word)
-            word_freqs[keys.index(word)][1] += 1
+            $word_freqs[keys.index(word)][1] += 1
         else
-            word_freqs << [word, 1]
+            $word_freqs << [word, 1]
         end
     end
 end
@@ -59,6 +59,6 @@ remove_stop_words
 frequencies
 sort
 
-word_freqs[0..24].each do |pair|
+$word_freqs[0..24].each do |pair|
     print "#{pair[0]} - #{pair[1]}\n"
 end
