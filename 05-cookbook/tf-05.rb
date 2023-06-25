@@ -22,18 +22,19 @@ def filter_chars_and_normalize
 end
 
 def scan
-    data_str = data.to_s
+    data_str = $data.join
     $words += data_str.split(' ')
 end
 
 def remove_stop_words
+    stop_words = []
     open(ARGV[1]) do |f|
         stop_words = f.read.split(',')
     end
     stop_words += ('a'..'z').to_a
 
-    words.each do |word|
-        words.delete(word) if stop_words.include?(word)
+    stop_words.each do |word|
+        $words.delete(word) if $words.include?(word)
     end
 end
 
