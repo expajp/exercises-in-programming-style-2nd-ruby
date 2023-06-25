@@ -50,7 +50,8 @@ def frequencies
 end
 
 def sort
-    word_freqs.sort { |a, b| b[1] <=> a[1] }
+    # stable sort
+    $word_freqs.sort_by!.with_index { |v, i| [-v[1], i] }
 end
 
 read_file(ARGV[0])
