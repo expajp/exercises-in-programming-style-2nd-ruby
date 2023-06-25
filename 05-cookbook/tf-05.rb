@@ -7,7 +7,7 @@ $word_freqs = []
 
 def read_file(path_to_file)
     open(path_to_file) do |f|
-        data += f.read
+        $data = $data + f.read.chars
     end
 end
 
