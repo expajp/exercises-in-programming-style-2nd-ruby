@@ -11,7 +11,7 @@ def read_file(path_to_file)
 end
 
 def filter_chars_and_normalize(str_data)
-    str_data.gsub(/[\W]+/, ' ').downcase
+    str_data.gsub(/[\W_]+/, ' ').downcase
 end
 
 def scan(str_data)
