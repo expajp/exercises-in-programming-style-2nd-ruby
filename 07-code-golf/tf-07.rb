@@ -6,7 +6,7 @@ open(ARGV[0])
     .read
     .downcase
     .scan(/[a-z]{2,}/)
-    .each_with_object(Hash.new(0)) { |w, h| h[w] += 1 unless stops.include?(w) }
+    .each_with_object(Hash.new 0) { |w, h| h[w] += 1 unless stops.include? w }
     .to_a
     .sort_by.with_index { |a, i| [-a[1], i] }[0..24]
     .each { |k, v| print "#{k} - #{v}\n" }
