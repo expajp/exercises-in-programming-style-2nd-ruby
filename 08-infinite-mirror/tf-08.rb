@@ -9,11 +9,8 @@ def count(word_list, stop_words, word_freqs)
     # リスト先頭の単語を処理する
     word = word_list[0]
     if !stop_words.include?(word)
-        if word_freqs.include?(word)
-            word_freqs[word] += 1
-        else
-            word_freqs[word] = 1
-        end
+        word_freqs[word] ||= 0
+        word_freqs[word] += 1
     end
 
     # 残りを処理する
