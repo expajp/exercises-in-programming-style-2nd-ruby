@@ -17,13 +17,13 @@ def count(word_list, stop_words, word_freqs)
     count(word_list[1..], stop_words, word_freqs)
 end
 
-def wf_print(word_freqs)
-    return if word_freqs.empty?
+def wf_print(word_freqs_ary)
+    return if word_freqs_ary.empty?
 
-    w, c = word_freqs.first
+    w, c = word_freqs_ary.first
     print("#{w} - #{c}\n")
 
-    wf_print(word_freqs[1..])
+    wf_print(word_freqs_ary[1..])
 end
 
 recursion_limit = 5000
@@ -36,4 +36,5 @@ word_freqs = {}
 # 本来はcountを呼び出すだけで良い
 0.step(word_list.count, recursion_limit) { |i| count(word_list[i..i+recursion_limit-1], stop_words, word_freqs) }
 
-wf_print(word_freqs.to_a.sort_by.with_index { |v, i| [-v[1], i += 1] }[0..24])
+word_freqs_ary = word_freqs.to_a.sort_by.with_index { |v, i| [-v[1], i += 1] }[0..24]
+wf_print(word_freqs_ary)
