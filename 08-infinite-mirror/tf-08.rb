@@ -27,17 +27,11 @@ end
 
 recursion_limit = 5000
 
-stop_words = []
-open(ARGV[1]) { |f| stop_words = f.read.split(',') }
-('a'..'z').to_a.each { |c| stop_words << c }
-
-words = ''
-open(ARGV[0]) { |f| words = f.read }
-words = words.gsub(/[\W_]+/, ' ').downcase.split(' ')
-
+stop_words = File.open(ARGV[1]).read.split(',')
+word_list = File.open(ARGV[0]).read.gsub(/[\W_]+/, ' ').downcase.split(' ').select{ _1.match?(/[a-z]{2,}/) }
 word_freqs = {}
 
-0.step(words.count, recursion_limit) do |i|
-    count(words[i..i+recursion_limit-1], stop_words, word_freqs)
+0.step(word_list.count, recursion_limit) do |i|
+    count(word_list[i..i+recursion_limit-1], stop_words, word_freqs)
 end
 wf_print(word_freqs.to_a.sort_by.with_index { |v, i| [-v[1], i += 1] }[0..24])
