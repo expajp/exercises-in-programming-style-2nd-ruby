@@ -22,7 +22,7 @@ def wf_print(word_freqs)
     w, c = word_freqs.first
     print("#{w} - #{c}\n")
 
-    wf_print(word_freqs.to_a[1..].to_h)
+    wf_print(word_freqs[1..])
 end
 
 recursion_limit = 5000
