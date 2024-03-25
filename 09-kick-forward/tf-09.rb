@@ -42,7 +42,9 @@ def frequencies(word_list, func)
 end
 
 def sort(wf, func)
-    func.call(wf.to_a.sort_by.with_index { |v, i| [-v[1], i += 1] }, method(:no_op).to_proc)
+    sorted_wf = wf.to_a.sort_by.with_index { |v, i| [-v[1], i += 1] }
+
+    func.call(sorted_wf, method(:no_op).to_proc)
 end
 
 def print_text(word_freqs, func)
