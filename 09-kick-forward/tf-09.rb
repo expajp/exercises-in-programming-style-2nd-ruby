@@ -2,10 +2,8 @@ raise 'Please assign an input file as ARGV[0]' if ARGV[0].nil?
 raise 'Please assign an stop_words file as ARGV[1]' if ARGV[1].nil?
 
 def read_file(path_to_file, func)
-    data = ''
-    open(path_to_file) do |f|
-        data = f.read
-    end
+    data = File.open(path_to_file).read
+
     # func: filter_chars
     func.call(data, method(:normalize).to_proc)
 end
@@ -28,12 +26,9 @@ def scan(str_data, func)
 end
 
 def remove_stop_words(word_list, func)
-    stop_words = []
-    open(ARGV[1]) do |f|
-        stop_words = f.read.split(',')
-    end
+    stop_words = File.open(ARGV[1]).read.split(',')
     stop_words += ('a'..'z').to_a
-    
+
     # func: frequencies
     func.call(word_list - stop_words, method(:sort).to_proc)
 end
