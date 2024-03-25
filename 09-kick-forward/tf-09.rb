@@ -56,8 +56,6 @@ def print_text(word_freqs, func)
     func.call(nil)
 end
 
-def no_op(func)
-    return
-end
+def no_op(func) = nil
 
 read_file(ARGV[0], method(:filter_chars).to_proc)
