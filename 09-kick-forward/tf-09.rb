@@ -34,14 +34,8 @@ def remove_stop_words(word_list, func)
 end
 
 def frequencies(word_list, func)
-    wf = {}
-    word_list.each do |w|
-        if wf.keys.include?(w)
-            wf[w] += 1
-        else
-            wf[w] = 1
-        end
-    end
+    wf = Hash.new(0)
+    word_list.each { |w| wf[w] += 1 }
     
     # func: sort
     func.call(wf, method(:print_text).to_proc)
