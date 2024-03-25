@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 
 $test_target_filepath = ARGV[0]
-$toplevel_filepath = ARGV[1] || '/Users/shu/workspaces/git/exs_pg_style_rb'
+$toplevel_filepath = ARGV[1] || `pwd`.chomp || '/Users/shu/workspaces/git/exs_pg_style_rb'
 
 class InputTest < Minitest::Test
     def test_stdout_by_test_txt
