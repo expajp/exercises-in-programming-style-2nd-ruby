@@ -30,7 +30,7 @@ class StopWordManager < TFExercise
         @stop_words += ('a'..'z').to_a
     end
     
-    def is_stop_word(word)
+    def stop_word?(word)
         @stop_words.include?(word)
     end
     
@@ -68,7 +68,7 @@ class WordFrequencyController < TFExercise
 
     def run
         @storage_manager.words.each do |word|
-            if !@stop_word_manager.is_stop_word(word)
+            if !@stop_word_manager.stop_word?(word)
                 @word_freq_manager.increment_count(word)
             end
         end
