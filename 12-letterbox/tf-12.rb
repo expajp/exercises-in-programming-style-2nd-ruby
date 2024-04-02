@@ -1,20 +1,21 @@
 raise 'Please assign an input file as ARGV[0]' if ARGV[0].nil?
 raise 'Please assign an stop_words file as ARGV[1]' if ARGV[1].nil?
 
-class DataStorageManager
-
-    def initialize
-        self.data = ''
-    end
-
+module Dispachable
     def dispatch(message)
-        if message[0] == 'init'
-            return init(message[1])
-        elsif message[0] == 'words'
-            return words
+        if self.class.private_method_defined?(message[0])
+            self.send(*message)
         else
             raise StandardError.new("Message not understood #{message[0]}")
         end
+    end
+end
+
+class DataStorageManager
+    include Dispachable
+
+    def initialize
+        self.data = ''
     end
 
     private 
@@ -31,19 +32,10 @@ class DataStorageManager
 end
 
 class StopWordManager
+    include Dispachable
 
     def initialize
         self.stop_words = []
-    end
-
-    def dispatch(message)
-        if message[0] == 'init'
-            return init(message[1])
-        elsif message[0] == 'stop_word?'
-            return stop_word?(message[1])
-        else
-            raise StandardError.new("Message not understood #{message[0]}")
-        end
     end
 
     private 
@@ -60,19 +52,10 @@ class StopWordManager
 end
 
 class WordFrequencyManager
+    include Dispachable
 
     def initialize
         self.word_freqs = Hash.new(0)
-    end
-
-    def dispatch(message)
-        if message[0] == 'increment_count'
-            return increment_count(message[1])
-        elsif message[0] == 'sorted'
-            return sorted
-        else
-            raise StandardError.new("Message not understood #{message[0]}")
-        end
     end
 
     private
@@ -89,16 +72,11 @@ class WordFrequencyManager
 end
 
 class WordFrequencyController
+    include Dispachable
 
-    def dispatch(message)
-        if message[0] == 'init'
-            return init(message[1], message[2])
-        elsif message[0] == 'run'
-            return run
-        else
-            raise StandardError.new("Message not understood #{message[0]}")
-        end
-    end
+    private 
+    
+    attr_accessor :storage_manager, :stop_word_manager, :word_freq_manager
 
     def init(path_to_file, path_to_stop_words_file)
         self.storage_manager = DataStorageManager.new
@@ -107,11 +85,7 @@ class WordFrequencyController
 
         self.storage_manager.dispatch(['init', path_to_file])
         self.stop_word_manager.dispatch(['init', path_to_stop_words_file])
-    end
-
-    private 
-    
-    attr_accessor :storage_manager, :stop_word_manager, :word_freq_manager
+    end    
 
     def run
         self.storage_manager.dispatch(['words']).each do |word|
