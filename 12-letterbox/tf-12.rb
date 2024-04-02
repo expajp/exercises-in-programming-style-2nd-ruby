@@ -17,6 +17,10 @@ class DataStorageManager
         end
     end
 
+    private 
+
+    attr_accessor :data
+
     def init(path_to_file)
         self.data = File.open(path_to_file).read.gsub(/[\W_]+/, ' ').downcase
     end
@@ -24,10 +28,6 @@ class DataStorageManager
     def words
         data_str = self.data.split(' ')
     end
-
-    private 
-
-    attr_accessor :data
 end
 
 class StopWordManager
@@ -46,6 +46,10 @@ class StopWordManager
         end
     end
 
+    private 
+
+    attr_accessor :stop_words
+
     def init(path_to_stop_words_file)
          self.stop_words = File.open(path_to_stop_words_file).read.split(',') + ('a'..'z').to_a
     end
@@ -53,10 +57,6 @@ class StopWordManager
     def stop_word?(word)
         self.stop_words.include?(word)
     end
-
-    private 
-
-    attr_accessor :stop_words
 end
 
 class WordFrequencyManager
@@ -75,6 +75,10 @@ class WordFrequencyManager
         end
     end
 
+    private
+
+    attr_accessor :word_freqs
+
     def increment_count(word)
         self.word_freqs[word] += 1
     end
@@ -82,10 +86,6 @@ class WordFrequencyManager
     def sorted
         self.word_freqs.to_a.sort_by.with_index { |v, i| [-v[1], i += 1] }
     end
-
-    private
-
-    attr_accessor :word_freqs
 end
 
 class WordFrequencyController
@@ -109,6 +109,10 @@ class WordFrequencyController
         self.stop_word_manager.dispatch(['init', path_to_stop_words_file])
     end
 
+    private 
+    
+    attr_accessor :storage_manager, :stop_word_manager, :word_freq_manager
+
     def run
         self.storage_manager.dispatch(['words']).each do |word|
             if !self.stop_word_manager.dispatch(['stop_word?', word])
@@ -121,10 +125,6 @@ class WordFrequencyController
             print("#{w} - #{c}\n")
         end
     end
-
-    private 
-    
-    attr_accessor :storage_manager, :stop_word_manager, :word_freq_manager
 end
 
 wf_controller = WordFrequencyController.new
