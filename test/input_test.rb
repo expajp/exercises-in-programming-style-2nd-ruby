@@ -13,6 +13,7 @@ class InputTest < Minitest::Test
         EOS
         $stdin = StringIO.new
         $stdout = StringIO.new
+        $stderr = StringIO.new
         ARGV[0] = "#{$toplevel_filepath}/test.txt"
         ARGV[1] = "#{$toplevel_filepath}/stop_words.txt"
         load "#{$toplevel_filepath}/#{$test_target_filepath}"
@@ -32,6 +33,7 @@ class InputTest < Minitest::Test
         EOS
         $stdin = StringIO.new
         $stdout = StringIO.new
+        $stderr = StringIO.new
         ARGV[0] = "#{$toplevel_filepath}/input.txt"
         ARGV[1] = "#{$toplevel_filepath}/stop_words.txt"
         load "#{$toplevel_filepath}/#{$test_target_filepath}"
@@ -68,6 +70,7 @@ class InputTest < Minitest::Test
         EOS
         $stdin = StringIO.new
         $stdout = StringIO.new
+        $stderr = StringIO.new
         ARGV[0] = "#{$toplevel_filepath}/pride-and-prejudice.txt"
         ARGV[1] = "#{$toplevel_filepath}/stop_words.txt"
         load "#{$toplevel_filepath}/#{$test_target_filepath}"
