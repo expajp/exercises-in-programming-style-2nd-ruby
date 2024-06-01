@@ -35,11 +35,11 @@ class IWordFrequencyCounter
     end
 end
 
-DataStorageManager = Class.new(IDataStorage)
-StopWordManager = Class.new(IStopWordFilter)
-WordFrequencyManager = Class.new(IWordFrequencyCounter)
+data_storage_manager = Class.new(IDataStorage)
+stop_word_manager = Class.new(IStopWordFilter)
+word_frequency_manager = Class.new(IWordFrequencyCounter)
 
-class DataStorageManager
+data_storage_manager.class_eval do
     def initialize(path_to_file)
         @data = File.open(path_to_file).read.gsub(/[\W_]+/, ' ').downcase.split(' ')
     end
@@ -48,8 +48,9 @@ class DataStorageManager
         @data
     end
 end
+DataStorageManager = data_storage_manager
 
-class StopWordManager
+stop_word_manager.class_eval do
     def initialize(path_to_stop_words_file)
         @stop_words = File.open(path_to_stop_words_file).read.split(',') + ('a'..'z').to_a
     end
@@ -58,8 +59,9 @@ class StopWordManager
         @stop_words.include?(word)
     end
 end
+StopWordManager = stop_word_manager
 
-class WordFrequencyManager
+word_frequency_manager.class_eval do
     def initialize
         @word_freqs = {}
     end
@@ -76,12 +78,13 @@ class WordFrequencyManager
         @word_freqs.to_a.sort_by.with_index { |v, i| [-v[1], i += 1] }
     end
 end
+WordFrequencyManager = word_frequency_manager
 
 class WordFrequencyController
     def initialize(path_to_file, path_to_stop_words_file)
-        @storage = DataStorageManager.new(path_to_file)
-        @stop_word_manager = StopWordManager.new(path_to_stop_words_file)
-        @word_freq_counter = WordFrequencyManager.new
+        @storage = ::DataStorageManager.new(path_to_file)
+        @stop_word_manager = ::StopWordManager.new(path_to_stop_words_file)
+        @word_freq_counter = ::WordFrequencyManager.new
     end
 
     def run
