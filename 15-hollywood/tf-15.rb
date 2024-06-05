@@ -79,18 +79,14 @@ class WordFrequencyCounter
     attr_accessor :_word_freqs
 
     def initialize(wfapp, data_storage)
-        self._word_freqs = {}
+        self._word_freqs = Hash.new(0)
 
         data_storage.register_for_word_event(method(:__increment_count).to_proc)
         wfapp.register_for_end_event(method(:__print_freqs).to_proc)
     end
 
     def __increment_count(word)
-        if self._word_freqs.keys.include?(word)
-            self._word_freqs[word] += 1
-        else
-            self._word_freqs[word] = 1
-        end
+        self._word_freqs[word] += 1
     end
 
     def __print_freqs
