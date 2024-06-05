@@ -22,8 +22,8 @@ class WordFrequencyFramework
         self._end_event_handlers.append(handler)
     end
 
-    def run(path_to_file)
-        self._load_event_handlers.each { |h| h.call(path_to_file) }
+    def run(path_to_file, path_to_stop_words_file)
+        self._load_event_handlers.each { |h| h.call(path_to_file, path_to_stop_words_file) }
         self._dowork_event_handlers.each { |h| h.call }
         self._end_event_handlers.each { |h| h.call }
     end
@@ -41,7 +41,7 @@ class DataStorage
         wfapp.register_for_dowork_event(method(:__produce_words).to_proc)
     end
 
-    def __load(path_to_file)
+    def __load(path_to_file, _)
         self._data = File.open(path_to_file).read.gsub(/[\W_]+/, ' ').downcase
     end
 
@@ -66,8 +66,8 @@ class StopWordFilter
         wfapp.register_for_load_event(method(:__load).to_proc)
     end
 
-    def __load(ignore)
-        self._stop_words = File.open(ARGV[1]).read.split(',') + ('a'..'z').to_a
+    def __load(_, path_to_stop_words_file)
+        self._stop_words = File.open(path_to_stop_words_file).read.split(',') + ('a'..'z').to_a
     end
 
     def stop_word?(word)
@@ -106,4 +106,4 @@ stop_word_filter = StopWordFilter.new(wfapp)
 data_storage = DataStorage.new(wfapp, stop_word_filter)
 word_freq_counter = WordFrequencyCounter.new(wfapp, data_storage)
 
-wfapp.run(ARGV[0])
+wfapp.run(ARGV[0], ARGV[1])
