@@ -53,7 +53,8 @@ class StopWordFilter
     end
 
     def load(event)
-        self._stop_words = File.open(ARGV[1]).read.split(',') + ('a'..'z').to_a
+        path_to_stop_words_file = event[2]
+        self._stop_words = File.open(path_to_stop_words_file).read.split(',') + ('a'..'z').to_a
     end
 
     def stop_word?(event)
@@ -98,7 +99,9 @@ class WordFrequencyApplication
 
     def run(event)
         path_to_file = event[1]
-        self._event_manager.publish(['load', path_to_file])
+        path_to_stop_words_file = event[2]
+
+        self._event_manager.publish(['load', path_to_file, path_to_stop_words_file])
         self._event_manager.publish(['start', nil])
     end
 
@@ -112,4 +115,4 @@ DataStorage.new(em)
 StopWordFilter.new(em)
 WordFrequencyCounter.new(em)
 WordFrequencyApplication.new(em)
-em.publish(['run', ARGV[0]])
+em.publish(['run', ARGV[0], ARGV[1]])
