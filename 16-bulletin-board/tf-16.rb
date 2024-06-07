@@ -5,15 +5,11 @@ class EventManager
     attr_accessor :_subscriptions
 
     def initialize
-        self._subscriptions = {}
+        self._subscriptions = Hash.new { [] }
     end
 
     def subscribe(event_type, handler)
-        if self._subscriptions.key?(event_type)
-            self._subscriptions[event_type].push(handler)
-        else
-            self._subscriptions[event_type] = [handler]
-        end
+        self._subscriptions[event_type] += [handler]
     end
 
     def publish(event)
